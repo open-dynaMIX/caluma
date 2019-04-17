@@ -501,19 +501,6 @@ class TableAnswer(AnswerQuerysetMixin, DjangoObjectType):
         interfaces = (Answer, graphene.Node)
 
 
-class FormAnswer(AnswerQuerysetMixin, DjangoObjectType):
-    value = graphene.Field(Document, required=True)
-
-    def resolve_value(self, info, **args):
-        return self.value_document
-
-    class Meta:
-        model = models.Answer
-        exclude_fields = ("documents", "value_document", "file", "date")
-        use_connection = False
-        interfaces = (Answer, graphene.Node)
-
-
 class File(DjangoObjectType):
     name = graphene.String(required=True)
     upload_url = graphene.String()
@@ -533,7 +520,20 @@ class FileAnswer(AnswerQuerysetMixin, DjangoObjectType):
 
     class Meta:
         model = models.Answer
-        exclude_fields = ("document", "documents", "value_document", "date")
+        exclude_fields = ("document", "documents", "value_document", "file", "date")
+        use_connection = False
+        interfaces = (Answer, graphene.Node)
+
+
+class FormAnswer(AnswerQuerysetMixin, DjangoObjectType):
+    value = graphene.Field(Document, required=True)
+
+    def resolve_value(self, info, **args):
+        return self.value_document
+
+    class Meta:
+        model = models.Answer
+        exclude_fields = ("documents", "value_document", "file", "date")
         use_connection = False
         interfaces = (Answer, graphene.Node)
 

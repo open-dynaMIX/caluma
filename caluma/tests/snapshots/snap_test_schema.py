@@ -285,7 +285,7 @@ type Document implements Node {
   form: Form!
   meta: JSONString!
   answers(before: String, after: String, first: Int, last: Int, question: ID, search: String, createdByUser: String, createdByGroup: String, metaHasKey: String, orderBy: [AnswerOrdering]): AnswerConnection
-  parentAnswers: [FileAnswer]
+  parentAnswers: [FormAnswer]
   case: Case
   workItem: WorkItem
 }
@@ -318,7 +318,7 @@ type File implements Node {
   createdByGroup: String
   id: ID!
   name: String!
-  answer: FileAnswer
+  answer: FormAnswer
   uploadUrl: String
   downloadUrl: String
   metadata: GenericScalar
@@ -333,7 +333,6 @@ type FileAnswer implements Answer, Node {
   question: Question!
   value: File!
   meta: GenericScalar!
-  file: File
 }
 
 type FileQuestion implements Question, Node {
@@ -796,20 +795,11 @@ type SaveDocumentDateAnswerPayload {
 }
 
 input SaveDocumentFileAnswerInput {
-  id: String
-  value: String!
-  valueId: ID
-  createdAt: DateTime
-  modifiedAt: DateTime
-  createdByUser: String
-  createdByGroup: String
-  meta: JSONString
-  date: Date
   question: ID!
   document: ID!
-  valueDocument: ID
-  file: ID
-  documents: [ID]
+  meta: JSONString
+  value: String!
+  valueId: ID
   clientMutationId: String
 }
 
